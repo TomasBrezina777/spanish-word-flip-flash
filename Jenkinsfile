@@ -73,6 +73,21 @@ pipeline {
                 sh 'npm ci'
                 sh 'npx playwright test'
             }
+            post{
+                always{
+                    publishHTML(target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: true,
+                        icon: '',
+                        keepAll: true,
+                        reportDir: 'reports-e2e/html/',
+                        reportFiles: 'index.html',
+                        reportTitles: '',
+                        useWrapperFileDirectly: true
+                    ])
+                    junit stdionRetention: 'ALL', testResults: 'reports-e2e/junit.xml'
+                }
+            }
 
 
         }
